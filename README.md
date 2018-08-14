@@ -25,7 +25,7 @@ await wrapper.get_user_stats(277954215194787840, 274561812664549376)
 # Note: All links are generated and its possible that they won't work
 await wrapper.user(274561812664549376)
 
-
 # get the guilds leaderboard, first argument is the guild id and the second argument can be the last rank (always shows ten ranks)
 # example response: [{'user_id': '280031155846381569', 'rank': 11, 'score': '4400'}, ..., {'user_id': '269106790279544832', 'rank': 20, 'score': '2837'}]
 await wrapper.leaderboard(277954215194787840, 20))
+```
