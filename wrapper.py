@@ -19,26 +19,22 @@ class ApiWrapper:
                 try:
                     return await result.json()
                 except aiohttp.client_exceptions.ContentTypeError:
-                    return await result.text()
+                    return eval(await result.text())
 
     async def put(self, url, data=None):
         # put api calls
         async with aiohttp.ClientSession() as session:
-            async with session.put(url=url, headers=self.headers, data=data) as result:
+            async with session.put(url=url, headers=self.headers, json=data) as result:
                 if result.status != 200:
                     print(result)
-
                     return False
-                return await result.json()
+                return True
 
     async def user(self, user_id):
         """Returns the available information about a user. Requires a user id"""
         result = await self.request(url=self.base_url + "/users/{}".format(user_id))
         if not result:
             raise Exception("The API is currently having issues, please try again later")
-        background = result.get("background", None)
-        if background is not None:
-            result["background_url"] = self.background_url.format(background)
         badges = result.get("badgeSlots", None)
         if badges is not None:
             result["badgeURLs"] = [self.badge_url.format(i) for i in badges]
@@ -52,7 +48,7 @@ class ApiWrapper:
         result = await self.request(url=self.base_url + "/guilds/{0}/leaderboard".format(server_id))
         if not result:
             raise Exception("The API is currently having issues, please try again later")
-        return result[rank - 10:rank]
+        return result[rank-10:rank]
 
 
     def update_key(self, key):
