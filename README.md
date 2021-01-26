@@ -1,6 +1,7 @@
 # Tatsumaki.py
 A async python api wrapper for the tatsumaki API https://api.tatsumaki.xyz/.
 
+> Note: The tatsumaki API is currently not available. I will update this library once the new version gets released.
 
 # Tutorial:
 
