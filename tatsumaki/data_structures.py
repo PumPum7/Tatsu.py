@@ -1,5 +1,6 @@
 class UserProfile:
-    def __init__(self, avatar_url, credits_, discriminator, id_, info_box, reputation, title, tokens, username, xp):
+    def __init__(self, avatar_url, credits_, discriminator, id_, info_box,
+                 reputation, title, tokens, username, xp, original):
         self.avatar_url: str = avatar_url
         self.credits: int = credits_
         self.discriminator: str = discriminator
@@ -10,25 +11,20 @@ class UserProfile:
         self.tokens: int = tokens
         self.username: str = username
         self.xp: int = xp
-
-
-class GuildMember:
-    def __init__(self, guild_id, rank, score, user_id):
-        self.guild_id = int(guild_id) if guild_id else guild_id
-        self.rank: int = rank
-        self.score: int = score
-        self.user_id: int = int(user_id) if user_id else user_id
+        self.original: int = original
 
 
 class GuildRankings:
-    def __init__(self, guild_id, rankings):
+    def __init__(self, guild_id, rankings, original):
         self.guild_id: int = int(guild_id) if guild_id else guild_id
-        self.rankings: [Ranking] = rankings
+        self.rankings: [RankingObject] = rankings
+        self.original: dict = original
 
 
-class Ranking:
-    def __init__(self, rank, score, user_id, guild_id=None):
+class RankingObject:
+    def __init__(self, rank, score, user_id, original, guild_id=None):
         self.rank: int = rank
         self.score: int = score
         self.user_id: int = int(user_id) if user_id else user_id
+        self.original: dict = original
         self.guild_id: int = int(guild_id) if guild_id else guild_id

@@ -37,10 +37,11 @@ class ApiWrapper:
             tokens=result.get('tokens', None),
             username=result.get('username', None),
             xp=result.get('xp', None),
+            original=result
         )
         return user
 
-    async def get_member_ranking(self, guild_id: int, user_id: int) -> Union[ds.Ranking, Exception]:
+    async def get_member_ranking(self, guild_id: int, user_id: int) -> Union[ds.RankingObject, Exception]:
         """Gets the all-time ranking for a guild member. Returns a guild member ranking object on success."""
         try:
             result = await self.request(f"/guilds/{guild_id}/rankings/members/{user_id}/all")
@@ -50,13 +51,14 @@ class ApiWrapper:
         return rank
 
     @staticmethod
-    def ranking_object(result) -> ds.Ranking:
+    def ranking_object(result) -> ds.RankingObject:
         """Initiate the rank profile"""
-        rank = ds.Ranking(
+        rank = ds.RankingObject(
             guild_id=result.get('guild_id', None),
             rank=result.get('rank', None),
             score=result.get('score', None),
-            user_id=result.get('user_id', None)
+            user_id=result.get('user_id', None),
+            original=result
         )
         return rank
 
@@ -68,19 +70,7 @@ class ApiWrapper:
             return e
         rankings = ds.GuildRankings(
             guild_id=result.get('guild_id', None),
-            rankings=[self.ranking_object(i) for i in result.get('rankings', [{}])]
+            rankings=[self.ranking_object(i) for i in result.get('rankings', [{}])],
+            original=result
         )
         return rankings
-
-
-if __name__ == '__main__':
-    import asyncio
-    loop = asyncio.get_event_loop()
-
-    async def main():
-        wrapper = ApiWrapper("ArQf6QFoCR-sElZOduZhvJtwUJ7XwZkS7")
-        # print(await wrapper.get_profile(274561812664549376))
-        # print(await wrapper.get_member_ranking(573885009820254239, 274561812664549376))
-        rankings = await wrapper.get_guild_rankings(573885009820254239)
-        print(rankings.rankings[0].user_id)
-    loop.run_until_complete(main())
