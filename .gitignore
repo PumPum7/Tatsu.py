@@ -1,3 +1,6 @@
 .idea
-venv
+/venv/
 /test/
+.pytest_cache
+/build/
+/dist/
