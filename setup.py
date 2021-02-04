@@ -1,24 +1,30 @@
-try:
-    from setuptools import setup
-    import setuptools
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
+import pathlib
+
+here = pathlib.Path(__file__).parent.resolve()
 
 setup(
     name='tatsumaki.py',
-    version='0.2',
-    install_requires=['aiohttp', "ratelimit"],
-    license='MIT License',
-    packages=["tatsumaki"],
-    long_description=open('README.md').read(),
-    long_description_content_type='text/markdown',
+    version='1.0',
     description="An async python API Wrapper for the Tatsumaki API.",
+    install_requires=[
+        'aiohttp==3.7.3',
+        'ratelimit'
+    ],
+    license='MIT License',
+    long_description=(here / 'README.md').read_text(encoding='utf-8'),
+    long_description_content_type='text/markdown',
     url="https://github.com/PumPum7/Tatsumaki.py",
     author="Pum",
     classifiers=[
-        "Intended Audience :: Developers"
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        "Operating System :: OS Independent"
     ],
+    keywords="api, tatsu, api wrapper",
+    packages=["tatsumaki"],
+    project_urls={
+        "Tatsu": "https://tatsu.gg/",
+        "Source": "https://github.com/PumPum7/Tatsumaki.py"
+    }
 )

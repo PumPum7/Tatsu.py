@@ -1,0 +1,7 @@
+include LICENSE.txt
+
+include setup.py
+
+include *.md
+
+prune test
