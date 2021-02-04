@@ -1,10 +1,10 @@
 class UserProfile:
-    def __init__(self, avatar_url, credits_, discriminator, id_, info_box,
+    def __init__(self, avatar_url, credits_, discriminator, user_id, info_box,
                  reputation, title, tokens, username, xp, original):
         self.avatar_url: str = avatar_url
         self.credits: int = credits_
         self.discriminator: str = discriminator
-        self.id: int = int(id_) if id_ else id_
+        self.user_id: int = int(user_id) if user_id else user_id
         self.info_box: str = info_box
         self.reputation: int = reputation
         self.title: str = title

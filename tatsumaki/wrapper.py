@@ -30,7 +30,7 @@ class ApiWrapper:
             avatar_url=result.get('avatar_url', None),
             credits_=result.get('credits', None),
             discriminator=result.get('discriminator', None),
-            id_=result.get('id', None),
+            user_id=result.get('id', None),
             info_box=result.get('info_box', None),
             reputation=result.get('reputation', None),
             title=result.get('title', None),
