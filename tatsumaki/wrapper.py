@@ -2,7 +2,7 @@ import aiohttp
 from ratelimit import limits
 from typing import Union
 
-import data_structures as ds
+import tatsumaki.data_structures as ds
 
 
 class ApiWrapper:
