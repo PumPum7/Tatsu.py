@@ -8,6 +8,7 @@ An async python api wrapper for the [Tatsu API](https://dev.tatsu.gg/).
 
 1. Download the library with the `pip install tatsumaki.py` command
 2. Import the library: `from tatsumaki.wrapper import ApiWrapper`
+3. Check the wiki for more information: [Wiki](https://github.com/PumPum7/Tatsumaki.py/wiki/Guide)
 
 ## Code examples:
 
