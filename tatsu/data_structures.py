@@ -11,7 +11,7 @@ class UserProfile:
         self.tokens: int = tokens
         self.username: str = username
         self.xp: int = xp
-        self.original: int = original
+        self.original: dict = original
 
 
 class GuildRankings:

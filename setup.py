@@ -4,9 +4,9 @@ import pathlib
 here = pathlib.Path(__file__).parent.resolve()
 
 setup(
-    name='tatsumaki.py',
-    version='1.0',
-    description="An async python API Wrapper for the Tatsumaki API.",
+    name='tatsu.py',
+    version='1.0.1',
+    description="An async python API Wrapper for the Tatsu API.",
     install_requires=[
         'aiohttp==3.7.3',
         'ratelimit'
@@ -14,7 +14,7 @@ setup(
     license='MIT License',
     long_description=(here / 'README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
-    url="https://github.com/PumPum7/Tatsumaki.py",
+    url="https://github.com/PumPum7/Tatsu.py",
     author="Pum",
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -22,9 +22,9 @@ setup(
         "Operating System :: OS Independent"
     ],
     keywords="api, tatsu, api wrapper",
-    packages=["tatsumaki"],
+    packages=["tatsu"],
     project_urls={
         "Tatsu": "https://tatsu.gg/",
-        "Source": "https://github.com/PumPum7/Tatsumaki.py"
+        "Source": "https://github.com/PumPum7/Tatsu.py"
     }
 )

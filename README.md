@@ -6,15 +6,17 @@ An async python api wrapper for the [Tatsu API](https://dev.tatsu.gg/).
 
 ## Set up guide:
 
-1. Download the library with the `pip install tatsumaki.py` command
-2. Import the library: `from tatsumaki.wrapper import ApiWrapper`
-3. Check the wiki for more information: [Wiki](https://github.com/PumPum7/Tatsumaki.py/wiki/Guide)
+1. Download the library with the `pip install tatsu.py` command
+2. Import the library: `from tatsu.wrapper import ApiWrapper`
+3. Check the wiki for more information: [Wiki](https://github.com/PumPum7/Tatsu.py/wiki/Guide)
 
 ## Code examples:
 
 - Get the information of a user
+
 ```python
-from tatsumaki.wrapper import ApiWrapper
+from tatsu.wrapper import ApiWrapper
+
 
 async def get_profile():
     wrapper = ApiWrapper(key="API_KEY_HERE")
@@ -24,7 +26,7 @@ async def get_profile():
 
 - Get the ranking of a user:
 ```python
-from tatsumaki.wrapper import ApiWrapper
+from tatsu.wrapper import ApiWrapper
 
 async def get_member_ranking():
     wrapper = ApiWrapper(key="API_KEY_HERE")
@@ -32,14 +34,16 @@ async def get_member_ranking():
     return result.rank
 ```
 
-- Get the rankings of a server with an offset 
+- Get the rankings of a server with an offset
+
 ```python
-from tatsumaki.wrapper import ApiWrapper
+from tatsu.wrapper import ApiWrapper
+
 
 async def get_ranks():
     wrapper = ApiWrapper(key="API_KEY_HERE")
     result = await wrapper.get_guild_rankings(573885009820254239, offset=100)
-    return result.rankings[0].rank # This will be 101
+    return result.rankings[0].rank  # This will be 101
 ```
 
 
