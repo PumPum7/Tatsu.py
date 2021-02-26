@@ -8,7 +8,7 @@ setup(
     version='1.0.1',
     description="An async python API Wrapper for the Tatsu API.",
     install_requires=[
-        'aiohttp==3.7.3',
+        'aiohttp==3.7.4',
         'ratelimit'
     ],
     license='MIT License',
