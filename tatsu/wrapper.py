@@ -27,12 +27,14 @@ class ApiWrapper:
         except Exception as e:
             return e
         user = ds.UserProfile(
+            avatar_hash=result.get('avatar_hash', None),
             avatar_url=result.get('avatar_url', None),
             credits_=result.get('credits', None),
             discriminator=result.get('discriminator', None),
             user_id=result.get('id', None),
             info_box=result.get('info_box', None),
             reputation=result.get('reputation', None),
+            subscription_type=result.get('subscription_type', None),
             title=result.get('title', None),
             tokens=result.get('tokens', None),
             username=result.get('username', None),
