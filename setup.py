@@ -5,11 +5,11 @@ here = pathlib.Path(__file__).parent.resolve()
 
 setup(
     name='tatsu.py',
-    version='1.0.1',
+    version='1.0.2',
     description="An async python API Wrapper for the Tatsu API.",
     install_requires=[
-        'aiohttp==3.7.3',
-        'ratelimit'
+        'aiohttp>=3.7.4',
+        'ratelimit>=2.2.1'
     ],
     license='MIT License',
     long_description=(here / 'README.md').read_text(encoding='utf-8'),
