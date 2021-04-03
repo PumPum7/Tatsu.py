@@ -5,7 +5,7 @@ here = pathlib.Path(__file__).parent.resolve()
 
 setup(
     name='tatsu.py',
-    version='1.0.2',
+    version='1.0.4',
     description="An async python API Wrapper for the Tatsu API.",
     install_requires=[
         'aiohttp>=3.7.4',
