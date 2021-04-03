@@ -1,6 +1,7 @@
 import aiohttp
 from ratelimit import limits
 from typing import Union
+import datetime
 
 import tatsu.data_structures as ds
 
@@ -26,6 +27,10 @@ class ApiWrapper:
             result = await self.request(f"users/{user_id}/profile")
         except Exception as e:
             return e
+        try:
+            subscription_renewal = datetime.datetime.strptime(result.get("subscription_renewal"), "%Y-%m-%dT%H:%M:%SZ")
+        except Exception:
+            subscription_renewal = None
         user = ds.UserProfile(
             avatar_hash=result.get('avatar_hash', None),
             avatar_url=result.get('avatar_url', None),
@@ -35,6 +40,7 @@ class ApiWrapper:
             info_box=result.get('info_box', None),
             reputation=result.get('reputation', None),
             subscription_type=result.get('subscription_type', None),
+            subscription_renewal=subscription_renewal,
             title=result.get('title', None),
             tokens=result.get('tokens', None),
             username=result.get('username', None),
@@ -44,7 +50,10 @@ class ApiWrapper:
         return user
 
     async def get_member_ranking(self, guild_id: int, user_id: int) -> Union[ds.RankingObject, Exception]:
-        """Gets the all-time ranking for a guild member. Returns a guild member ranking object on success."""
+        """Gets the all-time ranking for a guild member. Returns a guild member ranking object on success.
+        :param guild_id: The ID of the guild
+        :param user_id: The user id
+        """
         try:
             result = await self.request(f"/guilds/{guild_id}/rankings/members/{user_id}/all")
         except Exception as e:
@@ -64,10 +73,14 @@ class ApiWrapper:
         )
         return rank
 
-    async def get_guild_rankings(self, guild_id, offset=0) -> Union[ds.GuildRankings, Exception]:
-        """Gets all-time rankings for a guild. Returns a guild rankings object on success."""
+    async def get_guild_rankings(self, guild_id, timeframe="all", offset=0) -> Union[ds.GuildRankings, Exception]:
+        """Gets all-time rankings for a guild. Returns a guild rankings object on success.
+        :param guild_id: The ID of the guild
+        :param timeframe: Can be all, month or week
+        :param offset: The guild rank offset
+        """
         try:
-            result = await self.request(f"/guilds/{guild_id}/rankings/all?offset={offset}")
+            result = await self.request(f"/guilds/{guild_id}/rankings/{timeframe}?offset={offset}")
         except Exception as e:
             return e
         rankings = ds.GuildRankings(

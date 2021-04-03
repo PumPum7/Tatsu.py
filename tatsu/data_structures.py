@@ -1,6 +1,8 @@
+import datetime
+
 class UserProfile:
     def __init__(self, avatar_hash, avatar_url, credits_, discriminator, user_id, info_box,
-                 reputation, subscription_type, title, tokens, username, xp, original):
+                 reputation, subscription_type, subscription_renewal, title, tokens, username, xp, original):
         self.avatar_has: str = avatar_hash
         self.avatar_url: str = avatar_url
         self.credits: int = credits_
@@ -9,6 +11,7 @@ class UserProfile:
         self.info_box: str = info_box
         self.reputation: int = reputation
         self.subscription_type: int = subscription_type
+        self.subscription_renewal: datetime.datetime = subscription_renewal
         self.title: str = title
         self.tokens: int = tokens
         self.username: str = username
