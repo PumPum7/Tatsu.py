@@ -26,7 +26,7 @@ class ApiWrapper:
         try:
             result = await self.request(f"users/{user_id}/profile")
         except Exception as e:
-            return e
+            raise e
         try:
             subscription_renewal = datetime.datetime.strptime(result.get("subscription_renewal"), "%Y-%m-%dT%H:%M:%SZ")
         except Exception:
@@ -57,7 +57,7 @@ class ApiWrapper:
         try:
             result = await self.request(f"/guilds/{guild_id}/rankings/members/{user_id}/all")
         except Exception as e:
-            return e
+            raise e
         rank = self.ranking_object(result)
         return rank
 
@@ -82,7 +82,7 @@ class ApiWrapper:
         try:
             result = await self.request(f"/guilds/{guild_id}/rankings/{timeframe}?offset={offset}")
         except Exception as e:
-            return e
+            raise e
         rankings = ds.GuildRankings(
             guild_id=result.get('guild_id', None),
             rankings=[self.ranking_object(i) for i in result.get('rankings', [{}])],
