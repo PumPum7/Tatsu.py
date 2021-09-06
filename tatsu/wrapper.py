@@ -1,6 +1,5 @@
 import aiohttp
 from ratelimit import limits
-from typing import Union
 import datetime
 
 import tatsu.data_structures as ds
@@ -21,12 +20,12 @@ class ApiWrapper:
                     return result.raise_for_status()
                 return await result.json()
 
-    async def get_profile(self, user_id: int) -> Union[Exception, ds.UserProfile]:
+    async def get_profile(self, user_id: int) -> ds.UserProfile:
         """Gets a user's profile. Returns a user object on success."""
         try:
             result = await self.request(f"users/{user_id}/profile")
         except Exception as e:
-            return e
+            raise e
         try:
             subscription_renewal = datetime.datetime.strptime(result.get("subscription_renewal"), "%Y-%m-%dT%H:%M:%SZ")
         except Exception:
@@ -49,7 +48,7 @@ class ApiWrapper:
         )
         return user
 
-    async def get_member_ranking(self, guild_id: int, user_id: int) -> Union[ds.RankingObject, Exception]:
+    async def get_member_ranking(self, guild_id: int, user_id: int) -> ds.RankingObject:
         """Gets the all-time ranking for a guild member. Returns a guild member ranking object on success.
         :param guild_id: The ID of the guild
         :param user_id: The user id
@@ -57,7 +56,7 @@ class ApiWrapper:
         try:
             result = await self.request(f"/guilds/{guild_id}/rankings/members/{user_id}/all")
         except Exception as e:
-            return e
+            raise e
         rank = self.ranking_object(result)
         return rank
 
@@ -73,7 +72,7 @@ class ApiWrapper:
         )
         return rank
 
-    async def get_guild_rankings(self, guild_id, timeframe="all", offset=0) -> Union[ds.GuildRankings, Exception]:
+    async def get_guild_rankings(self, guild_id, timeframe="all", offset=0) -> ds.GuildRankings:
         """Gets all-time rankings for a guild. Returns a guild rankings object on success.
         :param guild_id: The ID of the guild
         :param timeframe: Can be all, month or week
@@ -82,7 +81,7 @@ class ApiWrapper:
         try:
             result = await self.request(f"/guilds/{guild_id}/rankings/{timeframe}?offset={offset}")
         except Exception as e:
-            return e
+            raise e
         rankings = ds.GuildRankings(
             guild_id=result.get('guild_id', None),
             rankings=[self.ranking_object(i) for i in result.get('rankings', [{}])],
