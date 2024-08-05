@@ -22,7 +22,9 @@ class ApiWrapper:
                 raise Exception("Invalid API key.")
             if result.status_code == 404:
                 raise Exception("Invalid endpoint.")
-            raise Exception(f"Failed to get data from the API. Status code: {result.status_code}")
+            raise Exception(
+                f"Failed to get data from the API. Status code: {result.status_code}"
+            )
         return result.json()
 
     async def get_profile(self, user_id: int) -> ds.UserProfile:
@@ -32,23 +34,26 @@ class ApiWrapper:
         except Exception as e:
             raise e
         subscription_renewal_str = result.get("subscription_renewal")
-        subscription_renewal = datetime.datetime.strptime(subscription_renewal_str,
-                                                          "%Y-%m-%dT%H:%M:%SZ") if subscription_renewal_str else None
+        subscription_renewal = (
+            datetime.datetime.strptime(subscription_renewal_str, "%Y-%m-%dT%H:%M:%SZ")
+            if subscription_renewal_str
+            else None
+        )
         user_profile_data = {
-            'avatar_hash': result.get('avatar_hash', None),
-            'avatar_url': result.get('avatar_url', None),
-            'credits_': result.get('credits', None),
-            'discriminator': result.get('discriminator', None),
-            'user_id': result.get('id', None),
-            'info_box': result.get('info_box', None),
-            'reputation': result.get('reputation', None),
-            'subscription_type': result.get('subscription_type', None),
-            'subscription_renewal': subscription_renewal,
-            'title': result.get('title', None),
-            'tokens': result.get('tokens', None),
-            'username': result.get('username', None),
-            'xp': result.get('xp', None),
-            'original': result
+            "avatar_hash": result.get("avatar_hash", None),
+            "avatar_url": result.get("avatar_url", None),
+            "credits_": result.get("credits", None),
+            "discriminator": result.get("discriminator", None),
+            "user_id": result.get("id", None),
+            "info_box": result.get("info_box", None),
+            "reputation": result.get("reputation", None),
+            "subscription_type": result.get("subscription_type", None),
+            "subscription_renewal": subscription_renewal,
+            "title": result.get("title", None),
+            "tokens": result.get("tokens", None),
+            "username": result.get("username", None),
+            "xp": result.get("xp", None),
+            "original": result,
         }
 
         user = ds.UserProfile(**user_profile_data)
@@ -60,7 +65,9 @@ class ApiWrapper:
         :param user_id: The user id
         """
         try:
-            result = await self.request(f"/guilds/{guild_id}/rankings/members/{user_id}/all")
+            result = await self.request(
+                f"/guilds/{guild_id}/rankings/members/{user_id}/all"
+            )
         except Exception as e:
             raise e
         rank = self.ranking_object(result)
@@ -70,27 +77,31 @@ class ApiWrapper:
     def ranking_object(result) -> ds.RankingObject:
         """Initiate the rank profile"""
         rank = ds.RankingObject(
-            guild_id=result.get('guild_id', None),
-            rank=result.get('rank', None),
-            score=result.get('score', None),
-            user_id=result.get('user_id', None),
-            original=result
+            guild_id=result.get("guild_id", None),
+            rank=result.get("rank", None),
+            score=result.get("score", None),
+            user_id=result.get("user_id", None),
+            original=result,
         )
         return rank
 
-    async def get_guild_rankings(self, guild_id, timeframe="all", offset=0) -> ds.GuildRankings:
+    async def get_guild_rankings(
+        self, guild_id, timeframe="all", offset=0
+    ) -> ds.GuildRankings:
         """Gets all-time rankings for a guild. Returns a guild rankings object on success.
         :param guild_id: The ID of the guild
         :param timeframe: Can be all, month or week
         :param offset: The guild rank offset
         """
         try:
-            result = await self.request(f"/guilds/{guild_id}/rankings/{timeframe}?offset={offset}")
+            result = await self.request(
+                f"/guilds/{guild_id}/rankings/{timeframe}?offset={offset}"
+            )
         except Exception as e:
             raise e
         rankings = ds.GuildRankings(
-            guild_id=result.get('guild_id', None),
-            rankings=[self.ranking_object(i) for i in result.get('rankings', [{}])],
-            original=result
+            guild_id=result.get("guild_id", None),
+            rankings=[self.ranking_object(i) for i in result.get("rankings", [{}])],
+            original=result,
         )
         return rankings
