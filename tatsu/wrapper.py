@@ -39,6 +39,11 @@ class ApiWrapper:
             if subscription_renewal_str
             else None
         )
+
+        # Map the subscription type to the subscription type object
+        subscription_type = result.get("subscription_type", 0)
+        subscription_type = ds.SubscriptionType(subscription_type)
+
         user_profile_data = {
             "avatar_hash": result.get("avatar_hash", None),
             "avatar_url": result.get("avatar_url", None),
@@ -47,7 +52,7 @@ class ApiWrapper:
             "user_id": result.get("id", None),
             "info_box": result.get("info_box", None),
             "reputation": result.get("reputation", None),
-            "subscription_type": result.get("subscription_type", None),
+            "subscription_type": subscription_type,
             "subscription_renewal": subscription_renewal,
             "title": result.get("title", None),
             "tokens": result.get("tokens", None),

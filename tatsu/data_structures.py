@@ -76,6 +76,36 @@ class UserProfile:
         }
 
 
+class SubscriptionType:
+    SUBSCRIPTION_MAP = {
+        0: "None",
+        1: "Supporter",
+        2: "Supporter+",
+        3: "Supporter++",
+    }
+
+    def __init__(self, subscription_type: int):
+        self.subscription_type: int = subscription_type
+
+    def __str__(self):
+        subscription_str = self.SUBSCRIPTION_MAP.get(self.subscription_type, "Unknown")
+        return f"SubscriptionType(subscription_type={subscription_str})"
+
+    def __repr__(self):
+        subscription_str = self.SUBSCRIPTION_MAP.get(self.subscription_type, "Unknown")
+        return f"SubscriptionType(subscription_type={subscription_str!r})"
+
+    def __eq__(self, other):
+        if isinstance(other, SubscriptionType):
+            return self.subscription_type == other.subscription_type
+        return False
+
+    def to_dict(self):
+        return {
+            "subscription_type": self.subscription_type,
+        }
+
+
 class GuildRankings:
     def __init__(self, guild_id: int, rankings: list, original: dict):
         self.guild_id: int = int(guild_id) if guild_id else guild_id
