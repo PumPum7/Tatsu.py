@@ -1,5 +1,6 @@
 import datetime
 
+
 class UserProfile:
     def __init__(self, avatar_hash, avatar_url, credits_, discriminator, user_id, info_box,
                  reputation, subscription_type, subscription_renewal, title, tokens, username, xp, original):
@@ -18,12 +19,23 @@ class UserProfile:
         self.xp: int = xp
         self.original: dict = original
 
+    def __str__(self):
+        return (f"UserProfile(avatar_hash={self.avatar_has}, avatar_url={self.avatar_url}, credits={self.credits}, "
+                f"discriminator={self.discriminator}, user_id={self.user_id}, info_box={self.info_box}, "
+                f"reputation={self.reputation}, subscription_type={self.subscription_type}, "
+                f"subscription_renewal={self.subscription_renewal}, title={self.title}, tokens={self.tokens}, "
+                f"username={self.username}, xp={self.xp}, original={self.original})")
+
 
 class GuildRankings:
     def __init__(self, guild_id, rankings, original):
         self.guild_id: int = int(guild_id) if guild_id else guild_id
         self.rankings: [RankingObject] = rankings
         self.original: dict = original
+
+    def __str__(self):
+        return (f"GuildRankings(guild_id={self.guild_id}, rankings={self.rankings}, "
+                f"original={self.original})")
 
 
 class RankingObject:
@@ -33,3 +45,7 @@ class RankingObject:
         self.user_id: int = int(user_id) if user_id else user_id
         self.original: dict = original
         self.guild_id: int = int(guild_id) if guild_id else guild_id
+
+    def __str__(self):
+        return (f"RankingObject(rank={self.rank}, score={self.score}, user_id={self.user_id}, "
+                f"original={self.original}, guild_id={self.guild_id})")
