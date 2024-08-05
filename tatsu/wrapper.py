@@ -34,22 +34,24 @@ class ApiWrapper:
         subscription_renewal_str = result.get("subscription_renewal")
         subscription_renewal = datetime.datetime.strptime(subscription_renewal_str,
                                                           "%Y-%m-%dT%H:%M:%SZ") if subscription_renewal_str else None
-        user = ds.UserProfile(
-            avatar_hash=result.get('avatar_hash', None),
-            avatar_url=result.get('avatar_url', None),
-            credits_=result.get('credits', None),
-            discriminator=result.get('discriminator', None),
-            user_id=result.get('id', None),
-            info_box=result.get('info_box', None),
-            reputation=result.get('reputation', None),
-            subscription_type=result.get('subscription_type', None),
-            subscription_renewal=subscription_renewal,
-            title=result.get('title', None),
-            tokens=result.get('tokens', None),
-            username=result.get('username', None),
-            xp=result.get('xp', None),
-            original=result
-        )
+        user_profile_data = {
+            'avatar_hash': result.get('avatar_hash', None),
+            'avatar_url': result.get('avatar_url', None),
+            'credits_': result.get('credits', None),
+            'discriminator': result.get('discriminator', None),
+            'user_id': result.get('id', None),
+            'info_box': result.get('info_box', None),
+            'reputation': result.get('reputation', None),
+            'subscription_type': result.get('subscription_type', None),
+            'subscription_renewal': subscription_renewal,
+            'title': result.get('title', None),
+            'tokens': result.get('tokens', None),
+            'username': result.get('username', None),
+            'xp': result.get('xp', None),
+            'original': result
+        }
+
+        user = ds.UserProfile(**user_profile_data)
         return user
 
     async def get_member_ranking(self, guild_id: int, user_id: int) -> ds.RankingObject:
