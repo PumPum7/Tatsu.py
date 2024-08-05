@@ -59,14 +59,17 @@ class ApiWrapper:
         user = ds.UserProfile(**user_profile_data)
         return user
 
-    async def get_member_ranking(self, guild_id: int, user_id: int) -> ds.RankingObject:
+    async def get_member_ranking(
+        self, guild_id: int, user_id: int, timeframe="all"
+    ) -> ds.RankingObject:
         """Gets the all-time ranking for a guild member. Returns a guild member ranking object on success.
         :param guild_id: The ID of the guild
         :param user_id: The user id
+        :param timeframe: Can be all, month or week
         """
         try:
             result = await self.request(
-                f"/guilds/{guild_id}/rankings/members/{user_id}/all"
+                f"/guilds/{guild_id}/rankings/members/{user_id}/{timeframe}"
             )
         except Exception as e:
             raise e
@@ -105,3 +108,36 @@ class ApiWrapper:
             original=result,
         )
         return rankings
+
+    async def get_store_listing(self, listing_id) -> ds.StoreListing:
+        """Gets a store listing. Returns a store listing object on success.
+        :param listing_id: The ID of the store listing
+        """
+        try:
+            result = await self.request(f"store/listings/{listing_id}")
+        except Exception as e:
+            raise e
+
+        # Map the prices to the StorePrice object
+        prices = result.get("prices", [])
+        prices = [
+            ds.StorePrice(
+                currency=price.get("currency", None),
+                amount=price.get("amount", None),
+            )
+            for price in prices
+        ]
+
+        store_listing_data = {
+            "listing_id": result.get("id", None),
+            "name": result.get("name", None),
+            "summary": result.get("summary", None),
+            "description": result.get("description", None),
+            "new": result.get("new", False),
+            "preview": result.get("preview", None),
+            "prices": prices,
+            "categories": result.get("categories", None),
+            "tags": result.get("tags", None),
+        }
+        store_listing = ds.StoreListing(**store_listing_data)
+        return store_listing

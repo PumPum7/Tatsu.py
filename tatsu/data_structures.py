@@ -142,3 +142,93 @@ class RankingObject:
             "original": self.original,
             "guild_id": self.guild_id,
         }
+
+
+class StorePrice:
+    CURRENCY_MAP = {
+        0: "Credits",
+        1: "Tokens",
+        2: "Emeralds",
+        3: "Candy Cane",
+        4: "United States Dollar (USD)",
+        5: "Candy Corn",
+    }
+
+    def __init__(self, currency: int, amount: float):
+        self.currency: int = currency
+        self.amount: float = amount
+
+    def __str__(self):
+        currency_str = self.CURRENCY_MAP.get(self.currency, "Unknown")
+        return f"StorePrice(currency={currency_str}, amount={self.amount})"
+
+    def __repr__(self):
+        currency_str = self.CURRENCY_MAP.get(self.currency, "Unknown")
+        return f"StorePrice(currency={currency_str!r}, amount={self.amount!r})"
+
+    def __eq__(self, other):
+        if isinstance(other, StorePrice):
+            return self.currency == other.currency and self.amount == other.amount
+        return False
+
+    def to_dict(self):
+        return {
+            "currency": self.currency,
+            "amount": self.amount,
+        }
+
+
+class StoreListing:
+    def __init__(
+        self,
+        listing_id: str,
+        name: str,
+        summary: str,
+        description: str,
+        new: bool,
+        preview: str = None,
+        prices: list = None,
+        categories: list = None,
+        tags: list = None,
+    ):
+        self.listing_id: str = listing_id
+        self.name: str = name
+        self.summary: str = summary
+        self.description: str = description
+        self.new: bool = new
+        self.preview: str = preview
+        self.prices: list = prices if prices is not None else []
+        self.categories: list = categories if categories is not None else []
+        self.tags: list = tags if tags is not None else []
+
+    def __str__(self):
+        return (
+            f"StoreListing(listing_id={self.listing_id}, name={self.name}, summary={self.summary}, "
+            f"description={self.description}, new={self.new}, preview={self.preview}, "
+            f"prices={self.prices}, categories={self.categories}, tags={self.tags})"
+        )
+
+    def __eq__(self, other):
+        if isinstance(other, StoreListing):
+            return self.listing_id == other.listing_id
+        return False
+
+    def __repr__(self):
+        return (
+            f"StoreListing(listing_id={self.listing_id!r}, name={self.name!r}, summary={self.summary!r}, "
+            f"description={self.description!r}, new={self.new!r}, preview={self.preview!r}, "
+            f"prices={self.prices!r}, categories={self.categories!r}, tags={self.tags!r})"
+        )
+
+    def to_dict(self):
+        return {
+            "listing_id": self.listing_id,
+            "name": self.name,
+            "summary": self.summary,
+            "description": self.description,
+            "new": self.new,
+            "preview": self.preview,
+            "prices": [price.to_dict() for price in self.prices],
+            "categories": self.categories,
+            "tags": self.tags,
+        }
