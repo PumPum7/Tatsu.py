@@ -1,15 +1,15 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 import pathlib
 
 here = pathlib.Path(__file__).parent.resolve()
 
 setup(
     name='tatsu.py',
-    version='1.0.4',
+    version='1.1.0',
     description="An async python API Wrapper for the Tatsu API.",
     install_requires=[
-        'aiohttp>=3.7.4',
-        'ratelimit>=2.2.1'
+        'ratelimit~=2.2.1',
+        'httpx~=0.27.0'
     ],
     license='MIT License',
     long_description=(here / 'README.md').read_text(encoding='utf-8'),

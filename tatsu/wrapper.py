@@ -1,4 +1,4 @@
-import aiohttp
+import httpx
 from ratelimit import limits
 import datetime
 
@@ -14,11 +14,16 @@ class ApiWrapper:
     @limits(calls=60, period=60)
     async def request(self, url):
         """Directly interact with the API to get the unfiltered results."""
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url=self.base_url + url, headers=self.headers) as result:
-                if result.status != 200:
-                    return result.raise_for_status()
-                return await result.json()
+        result = httpx.get(f"{self.base_url}{url}", headers=self.headers)
+        if result.status_code != 200:
+            if result.status_code == 429:
+                raise Exception("You are being rate limited.")
+            if result.status_code == 401:
+                raise Exception("Invalid API key.")
+            if result.status_code == 404:
+                raise Exception("Invalid endpoint.")
+            raise Exception(f"Failed to get data from the API. Status code: {result.status_code}")
+        return result.json()
 
     async def get_profile(self, user_id: int) -> ds.UserProfile:
         """Gets a user's profile. Returns a user object on success."""
@@ -26,10 +31,9 @@ class ApiWrapper:
             result = await self.request(f"users/{user_id}/profile")
         except Exception as e:
             raise e
-        try:
-            subscription_renewal = datetime.datetime.strptime(result.get("subscription_renewal"), "%Y-%m-%dT%H:%M:%SZ")
-        except Exception:
-            subscription_renewal = None
+        subscription_renewal_str = result.get("subscription_renewal")
+        subscription_renewal = datetime.datetime.strptime(subscription_renewal_str,
+                                                          "%Y-%m-%dT%H:%M:%SZ") if subscription_renewal_str else None
         user = ds.UserProfile(
             avatar_hash=result.get('avatar_hash', None),
             avatar_url=result.get('avatar_url', None),
