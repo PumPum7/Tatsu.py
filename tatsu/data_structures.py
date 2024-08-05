@@ -17,7 +17,6 @@ class UserProfile:
         tokens: int,
         username: str,
         xp: int,
-        original: dict,
     ):
         self.avatar_hash: str = avatar_hash
         self.avatar_url: str = avatar_url
@@ -32,7 +31,6 @@ class UserProfile:
         self.tokens: int = tokens
         self.username: str = username
         self.xp: int = xp
-        self.original: dict = original
 
     def __str__(self):
         return (
@@ -40,7 +38,7 @@ class UserProfile:
             f"discriminator={self.discriminator}, user_id={self.user_id}, info_box={self.info_box}, "
             f"reputation={self.reputation}, subscription_type={self.subscription_type}, "
             f"subscription_renewal={self.subscription_renewal}, title={self.title}, tokens={self.tokens}, "
-            f"username={self.username}, xp={self.xp}, original={self.original})"
+            f"username={self.username}, xp={self.xp})"
         )
 
     def __eq__(self, other):
@@ -54,7 +52,7 @@ class UserProfile:
             f"discriminator={self.discriminator!r}, user_id={self.user_id!r}, info_box={self.info_box!r}, "
             f"reputation={self.reputation!r}, subscription_type={self.subscription_type!r}, "
             f"subscription_renewal={self.subscription_renewal!r}, title={self.title!r}, tokens={self.tokens!r}, "
-            f"username={self.username!r}, xp={self.xp!r}, original={self.original!r})"
+            f"username={self.username!r}, xp={self.xp!r})"
         )
 
     def to_dict(self):
@@ -72,7 +70,6 @@ class UserProfile:
             "tokens": self.tokens,
             "username": self.username,
             "xp": self.xp,
-            "original": self.original,
         }
 
 
@@ -107,16 +104,12 @@ class SubscriptionType:
 
 
 class GuildRankings:
-    def __init__(self, guild_id: int, rankings: list, original: dict):
+    def __init__(self, guild_id: int, rankings: list):
         self.guild_id: int = int(guild_id) if guild_id else guild_id
         self.rankings: list = rankings
-        self.original: dict = original
 
     def __str__(self):
-        return (
-            f"GuildRankings(guild_id={self.guild_id}, rankings={self.rankings}, "
-            f"original={self.original})"
-        )
+        return f"GuildRankings(guild_id={self.guild_id}, rankings={self.rankings})"
 
     def __eq__(self, other):
         if isinstance(other, GuildRankings):
@@ -124,53 +117,92 @@ class GuildRankings:
         return False
 
     def __repr__(self):
-        return (
-            f"GuildRankings(guild_id={self.guild_id!r}, rankings={self.rankings!r}, "
-            f"original={self.original!r})"
-        )
+        return f"GuildRankings(guild_id={self.guild_id!r}, rankings={self.rankings!r})"
 
     def to_dict(self):
         return {
             "guild_id": self.guild_id,
             "rankings": self.rankings,
-            "original": self.original,
         }
 
 
-class RankingObject:
-    def __init__(
-        self, rank: int, score: int, user_id: int, original: dict, guild_id: int = None
-    ):
-        self.rank: int = rank
+class MemberRanking:
+    def __init__(self, score: int, rank: int, user_id: int):
         self.score: int = score
+        self.rank: int = rank
+        self.user_id: int = user_id
+
+    def __str__(self):
+        return f"MemberRanking(score={self.score}, rank={self.rank}, user_id={self.user_id})"
+
+    def __eq__(self, other):
+        if isinstance(other, MemberRanking):
+            return self.user_id == other.user_id
+        return False
+
+    def __repr__(self):
+        return f"MemberRanking(score={self.score!r}, rank={self.rank!r}, user_id={self.user_id!r})"
+
+    def to_dict(self):
+        return {
+            "score": self.score,
+            "rank": self.rank,
+            "user_id": self.user_id,
+        }
+
+
+class MemberGuildPoints:
+    def __init__(self, rank: int, points: int, user_id: int, guild_id: int = None):
+        self.rank: int = rank
+        self.points: int = points
         self.user_id: int = int(user_id) if user_id else user_id
-        self.original: dict = original
         self.guild_id: int = int(guild_id) if guild_id else guild_id
 
     def __str__(self):
-        return (
-            f"RankingObject(rank={self.rank}, score={self.score}, user_id={self.user_id}, "
-            f"original={self.original}, guild_id={self.guild_id})"
-        )
+        return f"RankingObject(rank={self.rank}, points={self.points}, user_id={self.user_id}, guild_id={self.guild_id})"
 
     def __eq__(self, other):
-        if isinstance(other, RankingObject):
+        if isinstance(other, MemberGuildPoints):
             return self.user_id == other.user_id and self.guild_id == other.guild_id
         return False
 
     def __repr__(self):
         return (
-            f"RankingObject(rank={self.rank!r}, score={self.score!r}, user_id={self.user_id!r}, "
-            f"original={self.original!r}, guild_id={self.guild_id!r})"
+            f"RankingObject(rank={self.rank!r}, points={self.points!r}, user_id={self.user_id!r}, "
+            f"guild_id={self.guild_id!r})"
         )
 
     def to_dict(self):
         return {
             "rank": self.rank,
+            "points": self.points,
+            "user_id": self.user_id,
+            "guild_id": self.guild_id,
+        }
+
+
+class MemberGuildScore:
+    def __init__(self, guild_id: str, score: int, user_id: str):
+        self.guild_id: str = guild_id
+        self.score: int = score
+        self.user_id: str = user_id
+
+    def __str__(self):
+        return f"GuildScore(guild_id={self.guild_id}, score={self.score}, user_id={self.user_id})"
+
+    def __repr__(self):
+        return f"GuildScore(guild_id={self.guild_id!r}, score={self.score!r}, user_id={self.user_id!r})"
+
+    def __eq__(self, other):
+        if isinstance(other, MemberGuildScore):
+            return self.guild_id == other.guild_id and self.user_id == other.user_id
+        return False
+
+    def to_dict(self):
+        return {
+            "guild_id": self.guild_id,
             "score": self.score,
             "user_id": self.user_id,
-            "original": self.original,
-            "guild_id": self.guild_id,
         }
 
 
