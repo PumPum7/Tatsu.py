@@ -30,6 +30,7 @@ jobs:
 
   publish-to-testpypi:
     name: Publish to TestPyPI
+    environment: Publish Python Package
     needs:
     - build
     runs-on: ubuntu-latest
@@ -48,6 +49,7 @@ jobs:
 
   publish-to-pypi:
     name: Publish to PyPI
+    environment: Publish Python Package
     needs:
     - build
     - publish-to-testpypi  # Only publish to PyPI after TestPyPI succeeds
