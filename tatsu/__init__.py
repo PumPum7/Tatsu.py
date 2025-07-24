@@ -8,7 +8,7 @@ error = tatsu.error
 
 __all__ = [
     'wrapper',
+    '__version__',
 ]
 
-name = "tatsu.py"
-version = "1.0.2"
+__version__ = "1.1.0"

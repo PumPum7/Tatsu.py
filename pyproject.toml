@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tatsu.py"
+version = "1.1.0"
+description = "An async python API Wrapper for the Tatsu API."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+    {name = "Pum", email = "python@pum.works"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["api", "tatsu", "api wrapper"]
+dependencies = [
+    "ratelimit~=2.2.1",
+    "httpx~=0.27.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/PumPum7/Tatsu.py"
+"Tatsu" = "https://tatsu.gg/"
+"Source" = "https://github.com/PumPum7/Tatsu.py"

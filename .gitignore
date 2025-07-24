@@ -5,3 +5,4 @@
 /build/
 /dist/
 /tatsu.py.egg-info/
+__pycache__/
